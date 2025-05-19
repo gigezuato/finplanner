@@ -6,7 +6,7 @@ class GerenciadorDespesa:
     def __init__(self):
         self.despesas = []
 
-    def cadastrar_despesa (self, nome, tipo, valor, categoria, data):
+    def cadastrar_despesa(self, nome, tipo, valor, categoria, data):
         despesa = Despesa(nome, tipo, valor, categoria, data)
         self.despesas.append(despesa)
         print(f'\033[32mDespesa {despesa.nome} cadastrada com sucesso!\033[m')

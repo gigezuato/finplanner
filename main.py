@@ -2,10 +2,13 @@ from utils.titulos import *
 from utils.validacao import *
 from gerenciadores.gerenciador_receita import GerenciadorReceita
 from gerenciadores.gerenciador_despesa import GerenciadorDespesa
+from gerenciadores.gerenciador_resumo_mensal import GerenciadorResumoMensal
 
 
 gerenciador_rec = GerenciadorReceita()
 gerenciador_desp = GerenciadorDespesa()
+gerenciador_resumo = GerenciadorResumoMensal()
+
 titulo('FinPlanner', '*=', 40)
 while True:
     titulo('MENU', '-', 30)
@@ -79,6 +82,22 @@ while True:
                         break
         case 3:
             subtitulo('RESUMO MENSAL', '-', 30)
+            if gerenciador_rec.qtde_receitas() == 0 or gerenciador_desp.qtde_despesas() == 0:
+                print('Ainda não é possível gerar o resumo mensal!')
+            else:
+                while True:
+                    try:
+                        ano = int(input('Ano (ex: 2025): '))
+                        mes = ler_opcao('Digite o número do mês (1 - 12): ', range(1, 13))
+                        break
+                    except ValueError:
+                        print('Ano ou mês inválido!')
+                receitas_do_mes = gerenciador_rec.filtrar_por_mes(ano, mes)
+                despesas_do_mes = gerenciador_desp.filtrar_por_mes(ano, mes)
+
+                gerenciador_resumo.obter_ou_criar_resumo(ano, mes, receitas_do_mes, despesas_do_mes)
+
+                gerenciador_resumo.exibir_resumo(ano, mes)
         case 4:
             subtitulo('SALVAR', '-', 30)
         case 0:

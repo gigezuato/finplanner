@@ -13,7 +13,7 @@ class GerenciadorDespesa:
 
     def listar_despesas(self):
         for d in self.despesas:
-            print(f'{d.nome} - R$ {d.valor:.2f} - {d.data}')
+            print(f'{d.nome} - R$ {d.valor:.2f} - {d.data.strftime('%d/%m/%Y')}')
 
     def relatorio_despesas(self):
         dados_tabela = []
@@ -27,3 +27,6 @@ class GerenciadorDespesa:
 
     def qtde_despesas(self):
         return len(self.despesas)
+
+    def filtrar_por_mes(self, ano, mes):
+        return [despesa for despesa in self.despesas if despesa.ano == ano and despesa.mes == mes]

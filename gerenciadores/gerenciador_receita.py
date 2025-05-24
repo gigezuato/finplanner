@@ -13,7 +13,7 @@ class GerenciadorReceita:
 
     def listar_receitas(self):
         for r in self.receitas:
-            print(f'{r.nome} - R$ {r.valor:.2f} - {r.data}')
+            print(f'{r.nome} - R$ {r.valor:.2f} - {r.data.strftime('%d/%m/%Y')}')
 
     def relatorio_receitas(self):
         dados_tabela = []
@@ -27,3 +27,6 @@ class GerenciadorReceita:
 
     def qtde_receitas(self):
         return len(self.receitas)
+
+    def filtrar_por_mes(self, ano, mes):
+        return [receita for receita in self.receitas if receita.ano == ano and receita.mes == mes]

@@ -6,26 +6,12 @@ class ResumoMensal:
         self.despesas = despesas
         self.porcentagens = {}
 
-    def total_receitas(self):
-        """
-            -> Soma todas as receitas
-        :return: a soma dos valores da receita
-        """
-        return sum(r.valor for r in self.receitas)
-
-    def total_despesas(self):
-        """
-            -> Soma todas as despesas
-        :return: a soma dos valores da despesa
-        """
-        return sum(d.valor for d in self.despesas)
-
     def saldo_mensal(self):
         """
             -> Saldo = Total de Receitas - Total de Despesas
         :return: o saldo mensal
         """
-        return self.total_receitas() - self.total_despesas()
+        return self.receitas.total_receitas() - self.despesas.total_despesas()
 
     def porc_categoria(self):
         """
@@ -33,7 +19,7 @@ class ResumoMensal:
             -> Armazena a porcentagem como valor no dicionário porcentagens (atributo dessa classe),
             tendo como chave o nome de cada categoria.
         """
-        total = self.total_despesas()
+        total = self.despesas.total_despesas()
         categorias = {}
 
         for d in self.despesas:

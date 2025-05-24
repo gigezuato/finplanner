@@ -23,8 +23,7 @@ class GerenciadorDespesa:
         print(tabela)
 
     def total_despesas(self):
-        total = sum(d.valor for d in self.despesas)
-        return total
+        return sum(d.valor for d in self.despesas)
 
     def qtde_despesas(self):
         return len(self.despesas)

@@ -23,8 +23,7 @@ class GerenciadorReceita:
         print(tabela)
 
     def total_receitas(self):
-        total = sum(r.valor for r in self.receitas)
-        return total
+        return sum(r.valor for r in self.receitas)
 
     def qtde_receitas(self):
         return len(self.receitas)

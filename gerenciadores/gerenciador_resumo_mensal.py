@@ -12,6 +12,15 @@ class GerenciadorResumoMensal:
             self.resumos[chave] = ResumoMensal(ano, mes, receitas, despesas)
         return self.resumos[chave]
 
+    def atualizar_resumo(self, ano, mes, receitas, despesas):
+        chave = (ano, mes)
+        if chave in self.resumos:
+            self.resumos[chave].receitas = receitas
+            self.resumos[chave].despesas = despesas
+            self.resumos[chave].porcentagens = {}
+        else:
+            self.obter_ou_criar_resumo(ano, mes, receitas, despesas)
+
     def exibir_resumo(self, ano, mes):
         meses = [' ', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro',
                  'Outubro', 'Novembro', 'Dezembro']
@@ -26,21 +35,26 @@ class GerenciadorResumoMensal:
             print(f'Saldo Mensal: R$ {resumo.saldo_mensal():.2f}')
 
             linha_horizontal('.', 30 + len(nome_mes))
-            print('Porcentagens por Categoria de Despesas: ')
-            if not resumo.porcentagens:
-                resumo.porc_categoria()
-            for cat, porc in resumo.porcentagens.items():
-                print(cat, ' = ', round(porc, 2), '%')
 
-            linha_horizontal('.', 30 + len(nome_mes))
-            menor_categoria, menor_porc = resumo.menor_categoria_despesa()
-            maior_categoria, maior_porc = resumo.maior_categoria_despesa()
-            menor_despesa, menor_valor = resumo.menor_gasto()
-            maior_despesa, maior_valor = resumo.maior_gasto()
-            print(f'Menor porcentagem por categoria de Despesa: {menor_categoria} - {menor_porc:.2f}%')
-            print(f'Maior porcentagem por categoria de Despesa: {maior_categoria} - {maior_porc:.2f}%')
-            print(f'Menor Despesa: {menor_despesa} - R$ {menor_valor:.2f}')
-            print(f'Maior Despesa: {maior_despesa} - R$ {maior_valor:.2f}')
+            if resumo.despesas:
+                print('Porcentagens por Categoria de Despesas: ')
+                if not resumo.porcentagens:
+                    resumo.porc_categoria()
+                for cat, porc in resumo.porcentagens.items():
+                    print(cat, ' = ', round(porc, 2), '%')
 
+                linha_horizontal('.', 30 + len(nome_mes))
+
+                menor_categoria, menor_porc = resumo.menor_categoria_despesa()
+                maior_categoria, maior_porc = resumo.maior_categoria_despesa()
+                menor_despesa, menor_valor = resumo.menor_gasto()
+                maior_despesa, maior_valor = resumo.maior_gasto()
+
+                print(f'Menor porcentagem por categoria de Despesa: {menor_categoria} - {menor_porc:.2f}%')
+                print(f'Maior porcentagem por categoria de Despesa: {maior_categoria} - {maior_porc:.2f}%')
+                print(f'Menor Despesa: {menor_despesa} - R$ {menor_valor:.2f}')
+                print(f'Maior Despesa: {maior_despesa} - R$ {maior_valor:.2f}')
+            else:
+                print('Não há despesas cadastradas para esse mês!')
         else:
             print(f'\033[31mResumo do mês {nome_mes} de {ano} não encontrado!\033[m')

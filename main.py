@@ -82,22 +82,23 @@ while True:
                         break
         case 3:
             subtitulo('RESUMO MENSAL', '-', 30)
-            if gerenciador_rec.qtde_receitas() == 0 or gerenciador_desp.qtde_despesas() == 0:
-                print('Ainda não é possível gerar o resumo mensal!')
+            while True:
+                try:
+                    ano = int(input('Ano (ex: 2025): '))
+                    mes = ler_opcao('Digite o número do mês (1 - 12): ', range(1, 13))
+                    break
+                except ValueError:
+                    print('Ano ou mês inválido!')
+
+            receitas_do_mes = gerenciador_rec.filtrar_por_mes(ano, mes)
+            despesas_do_mes = gerenciador_desp.filtrar_por_mes(ano, mes)
+
+            if not receitas_do_mes and not despesas_do_mes:
+                print(f'Ainda não foram cadastadas nem receitas nem despesas de {mes}/{ano} !')
             else:
-                while True:
-                    try:
-                        ano = int(input('Ano (ex: 2025): '))
-                        mes = ler_opcao('Digite o número do mês (1 - 12): ', range(1, 13))
-                        break
-                    except ValueError:
-                        print('Ano ou mês inválido!')
-                receitas_do_mes = gerenciador_rec.filtrar_por_mes(ano, mes)
-                despesas_do_mes = gerenciador_desp.filtrar_por_mes(ano, mes)
-
-                gerenciador_resumo.obter_ou_criar_resumo(ano, mes, receitas_do_mes, despesas_do_mes)
-
+                gerenciador_resumo.atualizar_resumo(ano, mes, receitas_do_mes, despesas_do_mes)
                 gerenciador_resumo.exibir_resumo(ano, mes)
+
         case 4:
             subtitulo('SALVAR', '-', 30)
         case 0:

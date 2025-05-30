@@ -9,4 +9,8 @@ class Receita:
         self.mes = data.month
 
     def dados_relatorio(self):
+        """
+            -> Retorna um relatório simples da receita, contendo: nome, tipo, valor, categoria e data.
+        :return: relatório da receita
+        """
         return [self.nome, self.tipo, self.valor, self.categoria, self.data.strftime('%d/%m/%Y')]

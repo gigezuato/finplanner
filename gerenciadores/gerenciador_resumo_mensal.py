@@ -7,12 +7,28 @@ class GerenciadorResumoMensal:
         self.resumos = {}
 
     def obter_ou_criar_resumo(self, ano, mes, receitas, despesas):
+        """
+            -> Se o resumo já existir, ele é retornado, senão, cria-se o resumo daquele mês e ano.
+        :param ano: ano do resumo
+        :param mes: mês do resumo
+        :param receitas: receitas daquele período (ano, mês)
+        :param despesas: despesas daquele período (ano, mês)
+        :return: o resumo do mês e ano que foram fornecidos
+        """
         chave = (ano, mes)
         if chave not in self.resumos:
             self.resumos[chave] = ResumoMensal(ano, mes, receitas, despesas)
         return self.resumos[chave]
 
     def atualizar_resumo(self, ano, mes, receitas, despesas):
+        """
+            -> Atualiza os dados do resumo mensal se ele ja existir, senão o método obter_ou_criar_resumo é chamado
+            para criar o resumo.
+        :param ano: ano do resumo
+        :param mes: mês do resumo
+        :param receitas: receitas daquele período
+        :param despesas: despesas daquele período
+        """
         chave = (ano, mes)
         if chave in self.resumos:
             self.resumos[chave].receitas = receitas
@@ -22,6 +38,11 @@ class GerenciadorResumoMensal:
             self.obter_ou_criar_resumo(ano, mes, receitas, despesas)
 
     def exibir_resumo(self, ano, mes):
+        """
+            -> Exibe o resumo mensal do período que o usuário digitou.
+        :param ano: ano do resumo
+        :param mes: mês do resumo
+        """
         meses = [' ', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro',
                  'Outubro', 'Novembro', 'Dezembro']
         nome_mes = meses[mes]

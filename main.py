@@ -3,17 +3,18 @@ from utils.validacao import *
 from gerenciadores.gerenciador_receita import GerenciadorReceita
 from gerenciadores.gerenciador_despesa import GerenciadorDespesa
 from gerenciadores.gerenciador_resumo_mensal import GerenciadorResumoMensal
-
+from arquivos.exporta_excel import ExportaExcel
 
 gerenciador_rec = GerenciadorReceita()
 gerenciador_desp = GerenciadorDespesa()
 gerenciador_resumo = GerenciadorResumoMensal()
+exportador = ExportaExcel(gerenciador_rec, gerenciador_desp, gerenciador_resumo)
 
 titulo('FinPlanner', '*=', 40)
 while True:
     titulo('MENU', '-', 30)
     print('Opções:')
-    print('1 - Receita\n2 - Despesa\n3 - Resumo Mensal\n4 - Salvar Arquivo\n0 - Sair')
+    print('1 - Receita\n2 - Despesa\n3 - Resumo Mensal\n4 - Exportar arquivos\n0 - Sair')
     opc = ler_opcao('>> Sua escolha: ', range(5))
     match opc:
         case 1:
@@ -100,7 +101,39 @@ while True:
                 gerenciador_resumo.exibir_resumo(ano, mes)
 
         case 4:
-            subtitulo('SALVAR', '-', 30)
+            while True:
+                subtitulo('EXPORTAR', '-', 30)
+                print('O que deseja salvar?')
+                print('1 - Todas as receitas\n2 - Todas as despesas\n3 - Receitas de um período (ano, mês)\n'
+                      '4 - Despesas de um período (ano, mês)\n5 - Resumo Mensal\n0 - Voltar')
+                opc_salvar = ler_opcao('>> Sua escolha: ', range(6))
+                match opc_salvar:
+                    case 1:
+                        exportador.exportar_receitas(gerenciador_rec.receitas)
+                    case 2:
+                        exportador.exportar_despesas(gerenciador_desp.despesas)
+                    case 3:
+                        while True:
+                            try:
+                                ano = int(input('Ano (ex: 2025): '))
+                                mes = ler_opcao('Digite o número do mês (1 - 12): ', range(1, 13))
+                                break
+                            except ValueError:
+                                print('Ano ou mês inválido!')
+                        exportador.exportar_receitas_periodo(ano, mes)
+                    case 4:
+                        while True:
+                            try:
+                                ano = int(input('Ano (ex: 2025): '))
+                                mes = ler_opcao('Digite o número do mês (1 - 12): ', range(1, 13))
+                                break
+                            except ValueError:
+                                print('Ano ou mês inválido!')
+                        exportador.exportar_despesas_periodo(ano, mes)
+                    case 5:
+                        print('Exportar Resumo Mensal')
+                    case 0:
+                        break
         case 0:
             break
 subtitulo('Programa Finalizado!', '*=', 30)

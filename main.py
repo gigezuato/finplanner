@@ -8,20 +8,21 @@ from arquivos.exporta_excel import ExportaExcel
 gerenciador_rec = GerenciadorReceita()
 gerenciador_desp = GerenciadorDespesa()
 gerenciador_resumo = GerenciadorResumoMensal()
-exportador = ExportaExcel(gerenciador_rec, gerenciador_desp, gerenciador_resumo)
+exportador = ExportaExcel(gerenciador_rec, gerenciador_desp, gerenciador_resumo.resumos)
 
 titulo('FinPlanner', '*=', 40)
 while True:
     titulo('MENU', '-', 30)
     print('Opções:')
-    print('1 - Receita\n2 - Despesa\n3 - Resumo Mensal\n4 - Exportar arquivos\n0 - Sair')
+    print('1 - Receita\n2 - Despesa\n3 - Resumo Mensal\n4 - Exportar arquivos\n0 - Sair')  # Menu principal
     opc = ler_opcao('>> Sua escolha: ', range(5))
     match opc:
         case 1:
             while True:
                 subtitulo('RECEITA', '-', 30)
-                print('1 - Cadastrar\n2 - Listar\n3 - Relatório\n0 - Voltar')
+                print('1 - Cadastrar\n2 - Listar\n3 - Relatório\n0 - Voltar')  # Menu Receita
                 opc_receita = ler_opcao('>> Sua escolha: ', range(4))
+
                 match opc_receita:
                     case 1:
                         subtitulo('CADASTRO', '-', 20)
@@ -52,8 +53,9 @@ while True:
         case 2:
             while True:
                 subtitulo('DESPESA', '-', 30)
-                print('1 - Cadastrar\n2 - Listar\n3 - Relatório\n0 - Voltar')
+                print('1 - Cadastrar\n2 - Listar\n3 - Relatório\n0 - Voltar')  # Menu Despesa
                 opc_despesa = ler_opcao('>> Sua escolha: ', range(4))
+
                 match opc_despesa:
                     case 1:
                         subtitulo('CADASTRO', '-', 20)
@@ -83,13 +85,7 @@ while True:
                         break
         case 3:
             subtitulo('RESUMO MENSAL', '-', 30)
-            while True:
-                try:
-                    ano = int(input('Ano (ex: 2025): '))
-                    mes = ler_opcao('Digite o número do mês (1 - 12): ', range(1, 13))
-                    break
-                except ValueError:
-                    print('Ano ou mês inválido!')
+            ano, mes = ler_ano_mes()
 
             receitas_do_mes = gerenciador_rec.filtrar_por_mes(ano, mes)
             despesas_do_mes = gerenciador_desp.filtrar_por_mes(ano, mes)
@@ -102,36 +98,66 @@ while True:
 
         case 4:
             while True:
-                subtitulo('EXPORTAR', '-', 30)
+                subtitulo('EXPORTAR', '-', 30)  # Menu Exportar
                 print('O que deseja salvar?')
-                print('1 - Todas as receitas\n2 - Todas as despesas\n3 - Receitas de um período (ano, mês)\n'
-                      '4 - Despesas de um período (ano, mês)\n5 - Resumo Mensal\n0 - Voltar')
+                print('1 - Todas as receitas (arquivo .xlsx com apenas as receitas)\n2 - Todas as despesas ('
+                      'arquivo .xlsx com apenas as despesas)\n3 - Receitas de um período (arquivo .xlsx com apenas '
+                      'receitas do mês e ano escolhidos)\n4 - Despesas de um período (arquivo .xlsx com apenas '
+                      'despesas do mês e ano escolhidos)\n5 - Resumo Mensal (arquivo .xlsx com RECEITAS, '
+                      'DESPESAS e RESUMO juntos)\n0 - Voltar')
                 opc_salvar = ler_opcao('>> Sua escolha: ', range(6))
+                linha_horizontal('-', 30)
+
                 match opc_salvar:
                     case 1:
-                        exportador.exportar_receitas(gerenciador_rec.receitas)
+                        print('\033[33mEssa opção irá exportar um arquivo .xlsx contendo uma planilha com todas as '
+                              'receitas cadastradas.\033[m')
+                        resp = ler_resposta_sim_nao('>> Deseja continuar? [s - sim / n - não]: ')
+                        if resp == 's':
+                            exportador.exportar_receitas(gerenciador_rec.receitas)
+                        else:
+                            print('\033[31mOperação cancelada!\033[m')
+
                     case 2:
-                        exportador.exportar_despesas(gerenciador_desp.despesas)
+                        print('\033[33mEssa opção irá exportar um arquivo .xlsx contendo uma planilha com todas as '
+                              'despesas cadastradas.\033[m')
+                        resp = ler_resposta_sim_nao('>> Deseja continuar? [s - sim / n - não]: ')
+                        if resp == 's':
+                            exportador.exportar_despesas(gerenciador_desp.despesas)
+                        else:
+                            print('\033[31mOperação cancelada!\033[m')
+
                     case 3:
-                        while True:
-                            try:
-                                ano = int(input('Ano (ex: 2025): '))
-                                mes = ler_opcao('Digite o número do mês (1 - 12): ', range(1, 13))
-                                break
-                            except ValueError:
-                                print('Ano ou mês inválido!')
-                        exportador.exportar_receitas_periodo(ano, mes)
+                        print('\033[33mEssa opção irá exportar um arquivo .xlsx contendo uma planilha com todas as '
+                              'receitas do mês e ano escolhidos.\033[m')
+                        resp = ler_resposta_sim_nao('>> Deseja continuar? [s - sim / n - não]: ')
+                        if resp == 's':
+                            ano, mes = ler_ano_mes()
+                            exportador.exportar_receitas_periodo(ano, mes)
+                        else:
+                            print('\033[31mOperação cancelada!\033[m')
+
                     case 4:
-                        while True:
-                            try:
-                                ano = int(input('Ano (ex: 2025): '))
-                                mes = ler_opcao('Digite o número do mês (1 - 12): ', range(1, 13))
-                                break
-                            except ValueError:
-                                print('Ano ou mês inválido!')
-                        exportador.exportar_despesas_periodo(ano, mes)
+                        print('\033[33mEssa opção irá exportar um arquivo .xlsx contendo uma planilha com todas as '
+                              'depesas do mês e ano escolhidos.\033[m')
+                        resp = ler_resposta_sim_nao('>> Deseja continuar? [s - sim / n - não]: ')
+                        if resp == 's':
+                            ano, mes = ler_ano_mes()
+                            exportador.exportar_despesas_periodo(ano, mes)
+                        else:
+                            print('\033[31mOperação cancelada!\033[m')
+
                     case 5:
-                        print('Exportar Resumo Mensal')
+                        print('\033[33mEssa opção irá exportar um arquivo .xlsx contendo 3 planilhas:')
+                        print('- Receitas do mês')
+                        print('- Despesas do mês')
+                        print('- Resumo mensal\033[m')
+                        resp = ler_resposta_sim_nao('>> Deseja continuar? [s - sim / n - não]: ')
+                        if resp == 's':
+                            ano, mes = ler_ano_mes()
+                            exportador.exportar_resumo_mensal(ano, mes)
+                        else:
+                            print('\033[31mOperação cancelada!\033[m')
                     case 0:
                         break
         case 0:

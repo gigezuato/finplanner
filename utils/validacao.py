@@ -40,3 +40,23 @@ def ler_data(msg):
             return data_validada
         except ValueError:
             print('\033[31mFormato inválido! Use dd/mm/aa.\033[m')
+
+
+def ler_resposta_sim_nao(msg):
+    while True:
+        resp = str(input(msg)).lower().strip()
+        if resp in 'sn':
+            break
+        else:
+            print('\033[31mResposta inválida! Digite "s" para sim ou "n" para não.\033[m')
+    return resp
+
+
+def ler_ano_mes():
+    while True:
+        try:
+            ano = int(input('Ano (ex: 2025): '))
+            mes = ler_opcao('Digite o número do mês (1 - 12): ', range(1, 13))
+            return ano, mes
+        except ValueError:
+            print('\033[31mAno ou mês inválido!\033[m')

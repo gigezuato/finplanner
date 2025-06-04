@@ -2,6 +2,12 @@ from datetime import datetime
 
 
 def ler_opcao(msg, opcoes_validas):
+    """
+        -> Verifica se a opção digitada pelo usuário é um número e se está no intervalo de números de opções válidas.
+    :param msg: mensagem exibida para o usuário
+    :param opcoes_validas: intervalo (range) de números correspondentes às opções válidas
+    :return: o valor númerico da opção escolhida e validada
+    """
     while True:
         opc = input(msg).strip()
         if opc.isdigit():
@@ -12,6 +18,11 @@ def ler_opcao(msg, opcoes_validas):
 
 
 def ler_tipo(msg):
+    """
+        -> Verifica se o tipo digitado pelo usuário corresponde à "fixa" ou "váriável".
+    :param msg: mensagem exibida para o usuário
+    :return: retorna o tipo validado
+    """
     while True:
         tipo = str(input(msg)).strip().lower()
         if tipo == 'fixa' or tipo == 'variável':
@@ -24,6 +35,11 @@ def ler_tipo(msg):
 
 
 def ler_valor(msg):
+    """
+        -> Verifica se o valor digitado é um número. Obs: o número irá ser lido e retornado no formato float.
+    :param msg: mensagem exibida para o usuário
+    :return: o valor validado
+    """
     while True:
         try:
             valor = float(input(msg))
@@ -33,6 +49,11 @@ def ler_valor(msg):
 
 
 def ler_data(msg):
+    """
+        -> Verifica se a data digitada está no formato: dd/mm/aa (Ex: 10/05/25)
+    :param msg: mensagem exibida para o usuário
+    :return: a data validada
+    """
     while True:
         data = str(input(msg))
         try:
@@ -43,6 +64,11 @@ def ler_data(msg):
 
 
 def ler_resposta_sim_nao(msg):
+    """
+        -> Lê e verifica uma resposta do tipo "sim" ou "não", sendo sim = 's' e não = 'n'.
+    :param msg: mensagem exibida para o usuário
+    :return: a resposta validada
+    """
     while True:
         resp = str(input(msg)).lower().strip()
         if resp in 'sn':
@@ -53,6 +79,10 @@ def ler_resposta_sim_nao(msg):
 
 
 def ler_ano_mes():
+    """
+        -> Lê e verifica o ano e o mês, ou seja, se o ano é um valor núméico e se o mês está entre 1 e 12.
+    :return: o ano e o mês validados
+    """
     while True:
         try:
             ano = int(input('Ano (ex: 2025): '))

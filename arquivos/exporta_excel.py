@@ -34,7 +34,7 @@ class ExportaExcel:
             df_receitas.to_excel(caminho_completo, index=False)
             print(f'Receitas exportadas para "{caminho_completo}" com sucesso!')
         except Exception as e:
-            print(f'\033[31mErro ao exportar aquivo: {e}\033[m')
+            print(f'\033[31mErro ao exportar arquivo: {e}\033[m')
 
     def exportar_despesas(self, despesas):
         if not despesas:
@@ -50,7 +50,7 @@ class ExportaExcel:
             df_despesas.to_excel(caminho_completo, index=False)
             print(f'Despesas exportadas para "{caminho_completo}" com sucesso!')
         except Exception as e:
-            print(f'\033[31mErro ao exportar aquivo: {e}\033[m')
+            print(f'\033[31mErro ao exportar arquivo: {e}\033[m')
 
     def exportar_receitas_periodo(self, ano, mes):
         receitas_mes = self.gerenciador_rec.filtrar_por_mes(ano, mes)
@@ -68,7 +68,7 @@ class ExportaExcel:
             df_receitas_mes.to_excel(caminho_completo, index=False)
             print(f'Receitas exportadas para "{caminho_completo}" com sucesso!')
         except Exception as e:
-            print(f'\033[31mErro ao exportar aquivo: {e}\033[m')
+            print(f'\033[31mErro ao exportar arquivo: {e}\033[m')
 
     def exportar_despesas_periodo(self, ano, mes):
         despesas_mes = self.gerenciador_desp.filtrar_por_mes(ano, mes)
@@ -77,16 +77,16 @@ class ExportaExcel:
             print(f'Não há despesas de {mes:02d}/{ano} para exportar!')
             return
 
-        df_depesas_mes = self.converter_para_dataframe(despesas_mes)
+        df_despesas_mes = self.converter_para_dataframe(despesas_mes)
 
         nome_arquivo = f'depesas_{ano}_{mes:02d}.xlsx'
         caminho_completo = os.path.join(self.caminho_base, nome_arquivo)
 
         try:
-            df_depesas_mes.to_excel(caminho_completo, index=False)
+            df_despesas_mes.to_excel(caminho_completo, index=False)
             print(f'Despesas exportadas para "{caminho_completo}" com sucesso!')
         except Exception as e:
-            print(f'\033[31mErro ao exportar aquivo: {e}\033[m')
+            print(f'\033[31mErro ao exportar arquivo: {e}\033[m')
 
     def exportar_resumo_mensal(self, ano, mes):
         if not self.resumos:
@@ -156,4 +156,4 @@ class ExportaExcel:
 
                 print(f'Resumo exportado para "{caminho_completo}" com sucesso!')
             except Exception as e:
-                print(f'\033[31mErro ao exportar aquivo: {e}\033[m')
+                print(f'\033[31mErro ao exportar arquivo: {e}\033[m')

@@ -24,7 +24,7 @@ class GerenciadorReceita:
             -> Lista todas as receitas cadastradas, mostrando seu nome, valor e data.
         """
         for r in self.receitas:
-            print(f'{r.nome} - R$ {r.valor:.2f} - {r.data.strftime('%d/%m/%Y')}')
+            print(f'{r.nome} - R$ {r.valor:.2f} - {r.data.strftime("%d/%m/%Y")}')
 
     def relatorio_receitas(self):
         """

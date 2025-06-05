@@ -27,7 +27,7 @@ def subtitulo(msg, simb, tam):
     :param simb: simbolo que irá compor o subtítulo (pode ser mais de um)
     :param tam:tamanho do subtítulo
     """
-    if simb == ' ' or '':
+    if simb.strip() == '':
         print(' ' * (tam // 2), f'\033[36m{msg}\033[m', ' ' * (tam // 2))
     else:
         print(f'\033[36m{simb}\033[m' * (tam // 2), f'\033[36m{msg}\033[m', f'\033[36m{simb}\033[m' * (tam // 2))

@@ -86,7 +86,8 @@ def ler_ano_mes():
     while True:
         try:
             ano = int(input('Ano (ex: 2025): '))
-            mes = ler_opcao('Digite o número do mês (1 - 12): ', range(1, 13))
-            return ano, mes
+            break
         except ValueError:
-            print('\033[31mAno ou mês inválido!\033[m')
+            print('\033[31mAno inválido!\033[m')
+    mes = ler_opcao('Digite o número do mês (1 - 12): ', range(1, 13))
+    return ano, mes

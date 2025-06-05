@@ -24,7 +24,7 @@ class GerenciadorDespesa:
             -> Lista todas as depesas cadastradas, mostrando seu nome, valor e data.
         """
         for d in self.despesas:
-            print(f'{d.nome} - R$ {d.valor:.2f} - {d.data.strftime('%d/%m/%Y')}')
+            print(f'{d.nome} - R$ {d.valor:.2f} - {d.data.strftime("%d/%m/%Y")}')
 
     def relatorio_despesas(self):
         """
